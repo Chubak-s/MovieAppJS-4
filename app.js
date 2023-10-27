@@ -1,6 +1,6 @@
-// const API_KEY = "5HY9A2G-Z6PM1C1-M7Q5YFG-D23RKER";
+const API_KEY = "5HY9A2G-Z6PM1C1-M7Q5YFG-D23RKER";
 // const API_KEY = "8HYETHK-ZJM4TCN-J819Z7J-HYXH2EH";
-const API_KEY = "H1G2CP3-9W641HN-KWEXWC6-DFXBYD1";
+// const API_KEY = "H1G2CP3-9W641HN-KWEXWC6-DFXBYD1";
 const API_URL_RANDOM = "https://api.kinopoisk.dev/v1.3/movie/random";
 const API_URL_SEARCH = "https://api.kinopoisk.dev/v1.2/movie/search?page=1&query="
 
@@ -17,7 +17,7 @@ async function GetMovie(url){
 
 async function Movies(){
     let movies = [];
-    for (let i = 0; i < 2; i++){
+    for (let i = 0; i < 12; i++){
         const movie = await GetMovie(API_URL_RANDOM);
         movies.push(movie);
     }
@@ -70,6 +70,11 @@ async function ShowMovies(api){
                 <div class="rating" style="border-color: ${getClassRating(movie.rating.toFixed(1))}">${movie.rating.toFixed(1)}</div>
             `;
         } else{
+            //позже проверить данный способ
+            // let arrayGenres=[]
+            // for (let i=0; i<movie.genres.length; i++){
+            //     arrayGenres.push(genres[i].name);
+            // }
             movieEl.innerHTML = `
              <div class="movie_cover-inner">
                     <img src="${movie.poster.url}" alt="movie" class="movie_cover">
@@ -77,6 +82,7 @@ async function ShowMovies(api){
                 <div class="description">
                     <h4>${movie.name}</h4>
                     <p>${movie.genres[0].name}</p>
+                    <!--<p>{arrayGenres.join(', ')}</p>-->
                 </div>
                 <div class="rating" style="border-color: ${getClassRating(movie.rating.kp.toFixed(1))}">${movie.rating.kp.toFixed(1)}</div>
         `;
