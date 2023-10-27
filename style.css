@@ -39,8 +39,12 @@ header{
     flex-direction: column;
     width: 20%;
 }
+.movie_cover-inner{
+    max-width: 100%;
+}
 .movie_cover{
-    width: 100%;
+    max-width: 100%;
+    height: auto;
 }
 .description{
     padding-top: 0.5rem;
