@@ -48,6 +48,7 @@ header{
 }
 .description{
     padding-top: 0.5rem;
+    max-width: 100%;
 }
 .description > h4{
     color: #fff;
