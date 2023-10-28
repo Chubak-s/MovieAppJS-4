@@ -17,7 +17,7 @@ async function GetMovie(url){
 
 async function Movies(){
     let movies = [];
-    for (let i = 0; i < 2; i++){
+    for (let i = 0; i < 12; i++){
         const movie = await GetMovie(API_URL_RANDOM);
         movies.push(movie);
     }
