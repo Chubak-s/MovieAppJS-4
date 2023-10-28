@@ -46,6 +46,9 @@ header{
     max-width: 100%;
     height: auto;
 }
+.movie_cover:hover {
+    border: 3px solid #fff;
+}
 .description{
     padding-top: 0.5rem;
     max-width: 100%;
@@ -68,4 +71,51 @@ header{
     border: 2px solid green;
     position: absolute;
     margin: 10px;
+}
+
+.modal{
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0, 0.5);
+    transition: width 2s;
+}
+.modal--show{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modalCard{
+    color: #fff;
+    max-width: 600px;
+    padding: 16px;
+    box-shadow: 0 0 20px 0 rgba(0,0,0,0.5);
+    background-color: #1a191f;
+    display: flex;
+    flex-direction: column;
+}
+.modalImg{
+    width: 250px;
+    margin: 0 auto;
+}
+.modalDescription>h3{
+    font-size: 18px;
+    padding-top: 10px;
+}
+.modalDescription{
+    margin-left: 20px;
+    font-size: 14px;
+}
+ul li{
+    padding: 5px;
+}
+.modal_button_close{
+    padding: 5px;
+    margin:10px;
+    align-self: center;
 }

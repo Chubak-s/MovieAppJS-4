@@ -1,9 +1,9 @@
-const API_KEY = "5HY9A2G-Z6PM1C1-M7Q5YFG-D23RKER";
-// const API_KEY = "8HYETHK-ZJM4TCN-J819Z7J-HYXH2EH";
+//const API_KEY = "5HY9A2G-Z6PM1C1-M7Q5YFG-D23RKER";
+ const API_KEY = "8HYETHK-ZJM4TCN-J819Z7J-HYXH2EH";
 // const API_KEY = "H1G2CP3-9W641HN-KWEXWC6-DFXBYD1";
 const API_URL_RANDOM = "https://api.kinopoisk.dev/v1.3/movie/random";
 const API_URL_SEARCH = "https://api.kinopoisk.dev/v1.2/movie/search?page=1&query="
-
+const API_URL_ID = "https://api.kinopoisk.dev/v1.3/movie/"
 async function GetMovie(url){
         const response = await fetch(url, {
             headers: {
@@ -17,7 +17,7 @@ async function GetMovie(url){
 
 async function Movies(){
     let movies = [];
-    for (let i = 0; i < 12; i++){
+    for (let i = 0; i < 2; i++){
         const movie = await GetMovie(API_URL_RANDOM);
         movies.push(movie);
     }
@@ -25,15 +25,11 @@ async function Movies(){
 }
 async function SearchedMovies(api){
     let movies = [];
-    const movie = await GetMovie(api);
-    console.log(movie[1]);
-    console.log(movie);
 
     for (let i = 0; i < 10; i++){
          const movie = await GetMovie(api);
-         if (movie.docs[i].name!=""){
+         if (movie.docs[i].rating>5){
              movies.push(movie.docs[i]);
-             console.log(movie.docs[i]);
          }
     }
 
@@ -70,24 +66,24 @@ async function ShowMovies(api){
                 <div class="rating" style="border-color: ${getClassRating(movie.rating.toFixed(1))}">${movie.rating.toFixed(1)}</div>
             `;
         } else{
-            //позже проверить данный способ
-            // let arrayGenres=[]
-            // for (let i=0; i<movie.genres.length; i++){
-            //     arrayGenres.push(genres[i].name);
-            // }
+            let arrayGenres=[];
+            for (let i=0; i<movie.genres.length; i++){
+                arrayGenres.push(movie.genres[i].name);
+            }
             movieEl.innerHTML = `
              <div class="movie_cover-inner">
                     <img src="${movie.poster.url}" alt="movie" class="movie_cover">
                 </div>
                 <div class="description">
                     <h4>${movie.name}</h4>
-                    <p>${movie.genres[0].name}</p>
-                    <!--<p>{arrayGenres.join(', ')}</p>-->
+                    <p>${arrayGenres.join(', ')}</p>
                 </div>
                 <div class="rating" style="border-color: ${getClassRating(movie.rating.kp.toFixed(1))}">${movie.rating.kp.toFixed(1)}</div>
         `;
         }
-        moviesEl.appendChild(movieEl)
+        movieEl.addEventListener("click", ()=>openModal(movie.id));
+        console.log(movie.id);
+        moviesEl.appendChild(movieEl);
     });
 }
 
@@ -105,5 +101,41 @@ form.addEventListener('submit', (e) => {
         ShowMovies(apiSearch);
 
         search.value="";
+    }
+})
+
+//Modal
+const modalEl = document.querySelector(".modal")
+async function openModal(id){
+
+    const idAPI = `${API_URL_ID}${id}`
+    let currMovie = await GetMovie(idAPI);
+    console.log(idAPI);
+    console.log(currMovie);
+    modalEl.classList.add("modal--show");
+    modalEl.innerHTML = `
+        <div class="modalCard">
+        <img src="${currMovie.poster.url}" alt="film" class="modalImg">
+        <div class="modalDescription">
+            <h3>Название - ${currMovie.name}</h3>
+            <ul>
+                <li>Жанр - ${currMovie.genres[0].name}</li>
+                <li>Описание - ${currMovie.description}</li>
+            </ul>
+        </div>
+        <button type="button" class="modal_button_close">Закрыть</button>
+        </div>
+        `
+    const btnClose = document.querySelector(".modal_button_close");
+    btnClose.addEventListener("click", ()=>closeModal());
+}
+
+function closeModal(){
+    modalEl.classList.remove("modal--show")
+}
+
+window.addEventListener("click", (e)=>{
+    if (e.target===modalEl){
+        closeModal();
     }
 })
